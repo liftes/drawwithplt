@@ -29,5 +29,5 @@ xdict = {"name": "$f$", "step": 10}
 ydict = {"name": "$k^2R_g^2$", "step": 10, "angle":-45, "fmt":"%.1f"}
 zdict = {"name": "$C_{RPA}^{-1}$","min":10,"max":15}
 D.snsFix(flist, xlist, z, xl=xdict, yl=ydict, zl=zdict,
-         normalZero=True, contour=False,ax=ax)
+         normalZero=True, contour=False)
 ```
