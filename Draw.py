@@ -1,3 +1,4 @@
+from matplotlib.axes import Axes
 import pylab
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -19,7 +20,9 @@ config = {
     "font.serif": ['SimSun'],
 }
 rcParams.update(config)
-
+plt.rcParams['xtick.direction'] = 'in'
+plt.rcParams['ytick.direction'] = 'in'
+plt.rcParams['axes.unicode_minus'] = False
 
 def SaveFig(flag, path, filepath="figure/"):
     if flag:
@@ -37,8 +40,11 @@ def SetColor(string, array):
 
 def SetSubFig(xnum, ynum, size):
     fig, ax = plt.subplots(xnum, ynum, figsize=size)
-    axes = ax.flatten()
-    return fig, axes
+    if xnum+ynum > 2:
+        axes = ax.flatten()
+        return fig, axes
+    else:
+        return fig, ax
 
 
 def Zone_and_linked(ax, axins, zone_left, zone_right, x, y, linked='bottom',
@@ -114,7 +120,7 @@ def initDict(xlist, ylist, z, xl, yl, zl):
     return xl, yl, zl
 
 
-def snsFix(xlist: np.array, ylist: np.array, z: np.array, xl={}, yl={}, zl={}, normalZero=True, contour=False, contournum=5, contourstyle='--', contourcolor="w", contourfmt='%.1f'):
+def snsFix(xlist: np.array, ylist: np.array, z: np.array, xl={}, yl={}, zl={}, normalZero=True, contour=False, contournum=5, contourstyle='--', contourcolor="w", contourfmt='%.1f', ax=False, cbar=True):
     # normalZero:是否反转x轴数据以使得左下角为零点
     # xl、yl中包含：name：标签名，step：采样步长，start：采样开始点，end：采样结束点，angle：标签旋转角度；zl中包含：name：标签名，color：字符串，cmap类型，min：最小值，max：最大值；
     if normalZero:
@@ -123,8 +129,12 @@ def snsFix(xlist: np.array, ylist: np.array, z: np.array, xl={}, yl={}, zl={}, n
 
     xl, yl, zl = initDict(xlist, ylist, z, xl, yl, zl)
 
-    ax = sns.heatmap(z, vmax=zl["max"], vmin=zl["min"] , cmap=zl["color"],
-                     cbar_kws={'label': zl["name"]})
+    if ax:
+        ax = sns.heatmap(z, vmax=zl["max"], vmin=zl["min"] , cmap=zl["color"],
+                     cbar_kws={'label': zl["name"]}, ax = ax, cbar=cbar)
+    else:
+        ax = sns.heatmap(z, vmax=zl["max"], vmin=zl["min"] , cmap=zl["color"],
+                     cbar_kws={'label': zl["name"]}, cbar=cbar)
 
     # 是否绘制等高线
     if contour:
@@ -133,16 +143,17 @@ def snsFix(xlist: np.array, ylist: np.array, z: np.array, xl={}, yl={}, zl={}, n
                        linestyles=contourstyle)
         plt.clabel(c, inline=True, fmt=contourfmt)
 
-    plt.yticks(np.arange(xl["start"], xl["end"], xl["step"]),
-               [xl["fmt"] % i for i in xlist.take(
+    ax.set_yticks(np.arange(xl["start"], xl["end"], xl["step"]))
+    ax.set_yticklabels([xl["fmt"] % i for i in xlist.take(
                 range(xl["start"], xl["end"], xl["step"]))],
                rotation=xl["angle"])
-    plt.ylabel(xl["name"])
-    plt.xticks(np.arange(yl["start"], yl["end"], yl["step"]),
-               [yl["fmt"] % i for i in ylist.take(
+    ax.set_ylabel(xl["name"])
+    ax.set_xticks(np.arange(yl["start"], yl["end"], yl["step"]))
+    ax.set_xticklabels([yl["fmt"] % i for i in ylist.take(
                 range(yl["start"], yl["end"], yl["step"]))],
                rotation=yl["angle"])
-    plt.xlabel(yl["name"])
+    ax.set_xlabel(yl["name"])
+    ax.tick_params(direction="out")
     return ax
 
 
@@ -187,3 +198,24 @@ def spline(x_arr,y_arr,step=1000,order=3,delete=1,turn=False,c="gray",label=""):
         plt.plot(y,x,color=c,label=label)
     else:
         plt.plot(x,y,color=c,label=label)
+
+
+def polyfit(x_arr,y_arr,step=1000,order=3,delete=1,turn=False,c="gray",label="",ax=plt,x=np.array([])):
+    if turn:
+        tmp = x_arr
+        x_arr = y_arr
+        y_arr = tmp
+    x_arr = np.array(x_arr)
+    y_arr = np.array(y_arr)
+    x_arr = x_arr.take(range(1, x_arr.shape[0], delete))
+    y_arr = y_arr.take(range(1, y_arr.shape[0], delete))
+    if x.shape[0] == 0:
+        x = np.linspace(np.min(x_arr),np.max(x_arr) , step) # new x-grid
+    z1 = np.polyfit(x_arr,y_arr,order)
+    p1 = np.poly1d(z1)
+    y = p1(x)
+    if turn:
+        ax.plot(y,x,color=c,label=label)
+    else:
+        ax.plot(x,y,color=c,label=label)
+    return p1
