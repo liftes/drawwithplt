@@ -25,9 +25,12 @@ import Draw as D
 color_list = D.SetColor('tab20',np.linspace(0, 1, 10))
 
 # 使用热力图绘制的字典控制及代码示例：
-xdict = {"name": "xlabel", "step": 10}
-ydict = {"name": "$y_0$", "step": 10, "angle":-45, "fmt":"%.1f"}
-zdict = {"name": "$z=x*36y^2$","min":0,"max":30}
-D.snsFix(flist, xlist, z, xl=xdict, yl=ydict, zl=zdict,
+xdict = {"name": "ylabel", "step": 5,"start":1, "fmt":"%.0f"}
+ydict = {"name": "xlabel", "step": 5, "angle":0, "fmt":"%.0f"}
+zdict = {"name": "Random"}
+x = np.array(range(32))
+y = np.array(range(32))
+z = np.random.randint(0,10,(32,32))
+D.snsFix(x, y, z, xl=xdict, yl=ydict, zl=zdict,
          normalZero=True, contour=False)
 ```
