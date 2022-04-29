@@ -1,5 +1,4 @@
 from matplotlib.axes import Axes
-import pylab
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np

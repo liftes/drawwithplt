@@ -1,0 +1,7 @@
+README.rst
+setup.py
+drawwithplt.egg-info/PKG-INFO
+drawwithplt.egg-info/SOURCES.txt
+drawwithplt.egg-info/dependency_links.txt
+drawwithplt.egg-info/requires.txt
+drawwithplt.egg-info/top_level.txt
