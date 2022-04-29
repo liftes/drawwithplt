@@ -1,4 +1,5 @@
 README.rst
+drawwithplt.py
 setup.py
 drawwithplt.egg-info/PKG-INFO
 drawwithplt.egg-info/SOURCES.txt

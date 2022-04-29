@@ -15,7 +15,8 @@ setup(
     maintainer='liftes',
     maintainer_email='21121598@bjtu.edu.cn',
     license='BSD License',
-    packages=find_packages(),
+    # packages=find_packages(),
+    py_modules=["drawwithplt"],
     platforms=["all"],
     url='https://github.com/liftes/PythonDraw',
     classifiers=[
