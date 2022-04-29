@@ -9,7 +9,7 @@ setup(
     description=(
         'More EASY to Draw SCI figure with PIL'
     ),
-    long_description=open('README.rst').read(),
+    # long_description=open('README.rst').read(),
     author='liftes',
     author_email='21121598@bjtu.edu.cn',
     maintainer='liftes',
