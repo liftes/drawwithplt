@@ -17,9 +17,9 @@ from matplotlib.colors import ListedColormap,LinearSegmentedColormap
 
 # ---------------------------------------------------------------
 
-FONTSIZE = 12
+FONTSIZE = 14
 AXISSIZE = 14
-DPI_SAVE = 1000
+DPI_SAVE = 800
 config = {
     "font.family": 'serif',
     "font.size": FONTSIZE,
@@ -52,7 +52,7 @@ def SaveFig(flag, path, filepath="figure/"):
     # 保存图片
     if flag:
         if not os.path.isdir(filepath):
-            os.mkdir(filepath)
+            os.makedirs(filepath)
         plt.savefig(filepath+path, bbox_inches='tight', dpi=DPI_SAVE)
     else:
         pass
