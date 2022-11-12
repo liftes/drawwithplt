@@ -37,3 +37,6 @@ D.snsFix(x, y, z, xl=xdict, yl=ydict, zl=zdict,
 
 ## 更新：（2022-4-30）
 提供了自定义默认参数的快捷入口，提供了自定义渐变颜色及色卡展示，完善了热力图的绘制模块，对colorbar开放了自定义设置接口
+
+## 配色网站参考
+https://color.uisdc.com/pick.html
