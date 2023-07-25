@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='drawwithplt',
-    version=0.2,
+    version="0.3.1",
     description=(
         'More EASY to Draw SCI figure with PIL'
     ),
